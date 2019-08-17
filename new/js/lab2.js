@@ -10,6 +10,7 @@ var raycaster = new THREE.Raycaster();
 var intersects = [];
 var scene, camera, renderer;
 var material, objeto, geometry, mesh, light;
+var texNum = 1;
 var k,j; // multiplicador global
 
 function onDocumentMouseMove( event ) {
@@ -20,8 +21,6 @@ function onDocumentMouseMove( event ) {
 	mouseY = event.clientY ;
 	k = map(mouse.x, 0, window.innerWidth, 7, 5);
     j = map(mouse.y, 0, window.innerWidth, 7, 5);
-
-
 }
 
 function onWindowResize() {
@@ -50,6 +49,10 @@ function init(){
 	j=6;
 	//interactividad
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
+	document.addEventListener('onClick', function(event) {
+		texNum === 22 ? 1 : texNum + 1;
+		material.uniforms.tMatCap.value = `'textures/matcap/matcap${texNum}.jpg'`
+	});
  	
 	window.addEventListener('resize', onWindowResize, false);
 
@@ -67,11 +70,10 @@ function init(){
 
 	
 	material = new THREE.ShaderMaterial( {
-
 	  uniforms: {
 	    tMatCap: {
 	      type: 't',
-	      value: THREE.ImageUtils.loadTexture('textures/matcap15.jpg')
+	      value: THREE.ImageUtils.loadTexture('textures/matcap/matcap1.jpg')
 	    },
 	    time: {
 	    	type: "f",
@@ -103,20 +105,19 @@ function update() {
 	//var k = 7;// k local
 
 	//plan a
-	for (var i = 0; i < geometry.vertices.length; i++) {
-   		var p = geometry.vertices[i];
-   		p.normalize().multiplyScalar(1 + 0.2 * noise.perlin3(p.x*k + time, p.y * j + Math.cos(time), p.z ));//multiplica el noise por 0.3 y le suma 1 ; rango final 0.7 a 1.3
-	}
-	/*
+	// for (var i = 0; i < geometry.vertices.length; i++) {
+  //  		var p = geometry.vertices[i];
+  //  		p.normalize().multiplyScalar(1 + 0.2 * noise.perlin3(p.x*k + time, p.y * j + Math.cos(time), p.z ));//multiplica el noise por 0.3 y le suma 1 ; rango final 0.7 a 1.3
+	// }
+	
 	//plan b (FLUBBER)
-		for (var i = 0; i < mesh.geometry.faces.length; i++) {
-    var uv = mesh.geometry.faceVertexUvs[0][i]; //faceVertexUvs is a huge arrayed stored inside of another array
-    var f = mesh.geometry.faces[i];
-    var p = mesh.geometry.vertices[f.a];//take the first vertex from each face
+		for (var i = 0; i < geometry.faces.length; i++) {
+    var uv = geometry.faceVertexUvs[0][i]; //faceVertexUvs is a huge arrayed stored inside of another array
+    var f = geometry.faces[i];
+    var p = geometry.vertices[f.a];//take the first vertex from each face
     p.normalize().multiplyScalar(1+0.3*noise.perlin3(uv[0].x*k, uv[0].y*k, time));
 	}
-	*/
-
+	
 	//updatear
 	geometry.verticesNeedUpdate = true; //must be set or vertices will not update
 	geometry.computeVertexNormals();
@@ -133,8 +134,7 @@ function render(){
 	update();
 
 	light.position.x = 5 * Math.cos(time) + 25;
-  	light.position.y = 5 * Math.sin(time) ;
-
+  light.position.y = 5 * Math.sin(time) ;
 
 	//raycasting
 	raycaster.setFromCamera( mouse, camera );
