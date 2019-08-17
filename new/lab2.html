@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>lab</title>
+		<link href="https://fonts.googleapis.com/css?family=Eagle+Lake" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css?family=Chathura|Kite+One|NTR|Rokkitt|Share+Tech+Mono" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>		
+		<div id="lander" class="invisible">
+				<img src="img/mouse.gif" alt="Move Mouse">
+				<img src="img/headphones.gif" alt="headphones">
+				<button id="boton"> %ok% </button>
+			</main>
+		</div>
+
+		<div id="container" >
+		</div>
+		
+		<script src="js/three.min.js"></script>
+		<script src="js/perlin.js"></script>
+		<script src="js/refractor.js"></script>
+		<script src="js/reflector.js"></script>
+		<script src="js/water2.js"></script>
+		
+
+		<script type="x-shader/x-vertex" id="sem-vs2">
+			uniform float time;
+			varying vec3 e;
+			varying vec3 n;
+
+			float waterDisplace;
+
+
+
+			void main() {
+
+			waterDisplace =  1.0 * (-2.0 * sin((time + (position.x * 100.0 )))) * 6.0 + (1.0 * cos((time + (position.y )))) * 17.0;
+			//waterDisplace =  1.0 * sin(time) ;
+			  e = normalize( vec3( modelViewMatrix * vec4( position, 1.0 ) ) );
+			  n = normalize( normalMatrix * normal );
+
+			  gl_Position = projectionMatrix * modelViewMatrix * (vec4(position, 1.0) + vec4(0.0, 0.0, waterDisplace, 0.0));
+
+			}
+	 
+
+
+		</script>
+		<script  type="x-shader/x-vertex" id="sem-fs2">
+			uniform sampler2D tMatCap;
+
+			varying vec3 e;
+			varying vec3 n;
+
+			void main() {
+
+			  vec3 r = reflect( e, n );
+			  float m = 2. * sqrt( pow( r.x, 2. ) + pow( r.y, 2. ) + pow( r.z + 1., 2. ) );
+			  vec2 vN = r.xy / m + .5;
+
+			  vec3 base = texture2D( tMatCap, vN ).rgb;
+
+			  gl_FragColor = vec4( base, 1. );
+
+			}
+		</script>
+		<script type="x-shader/x-vertex" id="sem-vs">
+		varying vec3 e;
+			varying vec3 n;
+
+			void main() {
+
+			  e = normalize( vec3( modelViewMatrix * vec4( position, 1.0 ) ) );
+			  n = normalize( normalMatrix * normal );
+
+			  gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1. );
+
+			}
+
+		</script>
+		<script type="x-shader/x-vertex" id="sem-fs">
+			uniform sampler2D tMatCap;
+
+			varying vec3 e;
+			varying vec3 n;
+
+			void main() {
+
+			  vec3 r = reflect( e, n );
+			  float m = 2. * sqrt( pow( r.x, 2. ) + pow( r.y, 2. ) + pow( r.z + 1., 2. ) );
+			  vec2 vN = r.xy / m + .5;
+
+			  vec3 base = texture2D( tMatCap, vN ).rgb;
+
+			  gl_FragColor = vec4( base, 1. );
+
+			}
+		</script>
+		<script type="text/javascript" src="js/lab2.js"></script>
+	</body>
+</html>
