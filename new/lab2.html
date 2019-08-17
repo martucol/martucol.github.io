@@ -32,21 +32,15 @@
 
 			float waterDisplace;
 
-
-
 			void main() {
 
-			waterDisplace =  1.0 * (-2.0 * sin((time + (position.x * 100.0 )))) * 6.0 + (1.0 * cos((time + (position.y )))) * 17.0;
-			//waterDisplace =  1.0 * sin(time) ;
+			// waterDisplace =  1.0 * (-2.0 * sin((time + (position.x * 100.0 )))) * 6.0 + (1.0 * cos((time + (position.y )))) * 17.0;
+				waterDisplace =  1.0 * sin(time);
 			  e = normalize( vec3( modelViewMatrix * vec4( position, 1.0 ) ) );
 			  n = normalize( normalMatrix * normal );
 
 			  gl_Position = projectionMatrix * modelViewMatrix * (vec4(position, 1.0) + vec4(0.0, 0.0, waterDisplace, 0.0));
-
 			}
-	 
-
-
 		</script>
 		<script  type="x-shader/x-vertex" id="sem-fs2">
 			uniform sampler2D tMatCap;

@@ -87,7 +87,7 @@ function init(){
 	} );
 	material.uniforms.tMatCap.value.wrapS = 
 			material.uniforms.tMatCap.value.wrapT = THREE.ClampToEdgeWrapping;
-	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 10, 50, 20 ), material);
+	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 50, 30), material);
 	scene.add(objeto);
 
 	geometry =  new THREE.SphereGeometry(1, 64, 64);
@@ -111,13 +111,13 @@ function update() {
   //  		p.normalize().multiplyScalar(1 + 0.2 * noise.perlin3(p.x*k + time, p.y * j + Math.cos(time), p.z ));//multiplica el noise por 0.3 y le suma 1 ; rango final 0.7 a 1.3
 	// }
 	
-	//plan b (FLUBBER)
-		for (var i = 0; i < geometry.faces.length; i++) {
-    var uv = geometry.faceVertexUvs[0][i]; //faceVertexUvs is a huge arrayed stored inside of another array
-    var f = geometry.faces[i];
-    var p = geometry.vertices[f.a];//take the first vertex from each face
-    p.normalize().multiplyScalar(1+0.3*noise.perlin3(uv[0].x*k, uv[0].y*k, time));
-	}
+	// //plan b (FLUBBER)
+	// 	for (var i = 0; i < geometry.faces.length; i++) {
+  //   var uv = geometry.faceVertexUvs[0][i]; //faceVertexUvs is a huge arrayed stored inside of another array
+  //   var f = geometry.faces[i];
+  //   var p = geometry.vertices[f.a];//take the first vertex from each face
+  //   //p.normalize().multiplyScalar(1+0.3*noise.perlin3(uv[0].x*k, uv[0].y*k, time));
+	// }
 	
 	//updatear
 	geometry.verticesNeedUpdate = true; //must be set or vertices will not update
@@ -129,7 +129,8 @@ function update() {
 function render(){
 	//update variables y uniforms
 
-	material.uniforms[ 'time' ].value = .005 * ( Date.now() - start );
+	//material.uniforms[ 'time' ].value = .01 * ( Date.now() - start );
+	material.uniforms['time'].value = 0;
 	time = (Date.now() - start ) * 0.001;
 
 	update();
@@ -148,7 +149,6 @@ function render(){
 
 	objeto.rotation.z += 0.003;
 	objeto.rotation.y += 0.003;
-
 
 	camera.lookAt( scene.position );
 	renderer.render(scene, camera);
