@@ -3,6 +3,7 @@ body {
 }
 .container{
 	display: flex;
+	flex-wrap: wrap;
 	align-content: center;
 	justify-content: space-between;
 	text-align: center;
@@ -13,13 +14,28 @@ body {
 ul {
 	display: block;
 	padding: 40;
+	margin: auto;
 }
 li {
 	list-style: none;
 	list-style-image: none;
 	display: block;
+	margin: 10px auto;
+}
+li a{
+	display: block;
+	color: black;
+	text-decoration: none;
+	transition: all 300ms;
+}
+li a:hover{
+	color: #115511;
+	text-decoration: none;
 }
 h2 {
 	font-size: 10vh;
+	width: 100%;
+	margin: 20px auto;
+	text-align: center;
 }
 
