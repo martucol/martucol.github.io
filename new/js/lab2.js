@@ -49,7 +49,7 @@ function init(){
 	j=6;
 	//interactividad
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
-	document.addEventListener('onClick', function(event) {
+	document.addEventListener('click', function(event) {
 		texNum === 22 ? 1 : texNum + 1;
 		material.uniforms.tMatCap.value = `'textures/matcap/matcap${texNum}.jpg'`
 	});
