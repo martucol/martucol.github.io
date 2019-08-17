@@ -50,8 +50,8 @@ function init(){
 	//interactividad
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 	document.addEventListener('click', function(event) {
-		texNum === 22 ? 1 : texNum + 1;
-		material.uniforms.tMatCap.value = `'textures/matcap/matcap${texNum}.jpg'`
+		texNum = texNum === 22 ? 1 : texNum + 1;
+		console.log("texnum", texNum);
 	});
  	
 	window.addEventListener('resize', onWindowResize, false);
@@ -73,7 +73,7 @@ function init(){
 	  uniforms: {
 	    tMatCap: {
 	      type: 't',
-	      value: THREE.ImageUtils.loadTexture('textures/matcap/matcap1.jpg')
+	      value: THREE.ImageUtils.loadTexture(`textures/matcap/matcap${texNum}.jpg`)
 	    },
 	    time: {
 	    	type: "f",
