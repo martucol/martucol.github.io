@@ -51,7 +51,6 @@ function init(){
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 	document.addEventListener('click', function(event) {
 		texNum = texNum === 22 ? 1 : texNum + 1;
-		console.log("texnum", texNum);
 		material.uniforms.tMatCap.value = THREE.ImageUtils.loadTexture(`textures/matcap/matcap${texNum}.jpg`);
 	});
  	
@@ -87,7 +86,7 @@ function init(){
 	} );
 	material.uniforms.tMatCap.value.wrapS = 
 			material.uniforms.tMatCap.value.wrapT = THREE.ClampToEdgeWrapping;
-	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 50, 30), material);
+	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 90, 50), material);
 	scene.add(objeto);
 
 	geometry =  new THREE.SphereGeometry(1, 64, 64);
@@ -129,8 +128,8 @@ function update() {
 function render(){
 	//update variables y uniforms
 
-	//material.uniforms[ 'time' ].value = .01 * ( Date.now() - start );
-	material.uniforms['time'].value = 0;
+	material.uniforms[ 'time' ].value = .01 * ( Date.now() - start );
+	//material.uniforms['time'].value = 0;
 	time = (Date.now() - start ) * 0.001;
 
 	update();
