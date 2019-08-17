@@ -52,6 +52,7 @@ function init(){
 	document.addEventListener('click', function(event) {
 		texNum = texNum === 22 ? 1 : texNum + 1;
 		console.log("texnum", texNum);
+		material.uniforms.tMatCap.value = THREE.ImageUtils.loadTexture(`textures/matcap/matcap${texNum}.jpg`);
 	});
  	
 	window.addEventListener('resize', onWindowResize, false);
