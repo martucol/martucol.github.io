@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> TEST07 </title>
+  </head>
+  <body>
+    <h1 align="centre">04515</h1>
+
+    <div id="container"></div>
+    <script src="js/three.min.js"></script>
+    <script id="vertexShader" type="x-shader/x-vertex">
+        void main() {
+            gl_Position = vec4( position, 1.0 );
+        }
+    </script>
+    <script id="fragmentShader" type="x-shader/x-fragment">
+
+
+        void main() {
+            gl_FragColor=vec4(1.0,0.6,0.6,1.0);
+        }
+    </script>
+    <script>
+        var camera, scene, renderer;
+        var uniforms;
+
+        init();
+        animate();
+
+        function init() {
+            renderer = new THREE.WebGLRenderer({antialias:true});
+            renderer.setSize( window.innerWidth, window.innerHeight);
+            document.body.appendChild( renderer.domElement);
+
+            camera = new THREE.PerspectiveCamera();
+            camera.position.z = -10;
+
+
+            scene = new THREE.Scene();
+
+            var geometry = new THREE.SphereGeometry( 2, 16, 8 );
+
+            uniforms = {
+                u_time: { type: "f", value: 1.0 },
+                u_resolution: { type: "v2", value: new THREE.Vector2() },
+                u_mouse: { type: "v2", value: new THREE.Vector2() }
+            };
+
+            var material = new THREE.ShaderMaterial( {
+                uniforms: uniforms,
+                vertexShader: document.getElementById( 'vertexShader' ).textContent,
+                fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+            } );
+
+            var mtrl = new THREE.MeshBasicMaterial({color:0xffffff});
+            var mesh = new THREE.Mesh( geometry, material );
+            scene.add( mesh );
+            camera.lookAt(mesh.position);
+
+
+
+
+            onWindowResize();
+            window.addEventListener( 'resize', onWindowResize, false );
+
+            document.onmousemove = function(e){
+              uniforms.u_mouse.value.x = e.pageX
+              uniforms.u_mouse.value.y = e.pageY
+            }
+        }
+
+        function onWindowResize( event ) {
+            renderer.setSize( window.innerWidth, window.innerHeight );
+            uniforms.u_resolution.value.x = renderer.domElement.width;
+            uniforms.u_resolution.value.y = renderer.domElement.height;
+        }
+
+        function animate() {
+            requestAnimationFrame( animate );
+            render();
+        }
+
+        function render() {
+            uniforms.u_time.value += 0.05;
+            renderer.render( scene, camera );
+        }
+    </script>
+</body>
+</html>

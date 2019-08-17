@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>TEST08</title>
+		<style>
+			body { margin: 0; }
+			canvas { width: 100%; height: 100% }
+			background {color : black}
+		</style>
+	</head>
+	<body>
+
+
+		<script src="js/three.min.js"></script>
+
+		<script>
+
+			//particle system credits to https://aerotwist.com/tutorials/creating-particles-with-three-js/
+			/////
+					var scene, camera, renderer;
+					var light;
+					var particleCount;
+
+			var contextClass = (window.AudioContext ||
+				window.webkitAudioContext ||
+				window.mozAudioContext ||
+				window.oAudioContext ||
+				window.msAudioContext);
+			if (contextClass) {
+				// Web Audio API is available.
+				var audioContext = new contextClass();
+			} else {
+				// Web Audio API is not available. Ask the user to use a supported browser.
+			}
+			// Create the source.
+
+			var song = new Audio();
+
+
+
+
+	///
+			function init(){
+
+					renderer = new THREE.WebGLRenderer({antialias:true});
+					renderer.setSize( window.innerWidth, window.innerHeight);
+					document.body.appendChild( renderer.domElement);
+
+					scene = new THREE.Scene();
+
+					camera = new THREE.PerspectiveCamera();
+
+					var audioContext = new AudioContext();
+
+// wait 100ms for sample to download/decode
+				var startTime = audioContext.currentTime + 0.2
+
+				getSample('sounds/220619__adriancalzon__scream-02.wav', function play (buffer) {
+
+					var player = audioContext.createBufferSource()
+				  player.buffer = buffer
+
+				  player.connect(audioContext.destination)
+				  player.start(startTime)
+				});
+			}
+
+			function getSample (url, cb) {
+				  var request = new XMLHttpRequest()
+				  request.open('GET', url)
+				  request.responseType = 'arraybuffer'
+				  request.onload = function () {
+				    audioContext.decodeAudioData(request.response, cb)
+				  }
+				  request.send();
+			}
+
+			function render() {
+					requestAnimationFrame( render );
+					renderer.render(scene, camera);
+			}
+
+
+
+			init();
+			render();
+
+
+		</script>
+	</body>
+</html>
