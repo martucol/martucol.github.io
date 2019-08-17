@@ -146,8 +146,8 @@ function render(){
 
 	}
 
-	objeto.rotation.z += 0.003;
-	objeto.rotation.y += 0.003;
+	objeto.rotation.z += 0.1 * mouse.x;
+	objeto.rotation.y += 0.1 * mouse.y;
 
 	camera.lookAt( scene.position );
 	renderer.render(scene, camera);
