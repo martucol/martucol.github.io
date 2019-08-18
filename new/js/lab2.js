@@ -50,7 +50,7 @@ function init(){
 	//interactividad
 	document.addEventListener('mousemove', onDocumentMouseMove, false);
 	document.addEventListener('click', function(event) {
-		texNum = texNum === 24 ? 1 : texNum + 1;
+		texNum = texNum === 25 ? 1 : texNum + 1;
 		material.uniforms.tMatCap.value = THREE.ImageUtils.loadTexture(`textures/matcap/matcap${texNum}.jpg`);
 	});
  	
