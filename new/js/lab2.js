@@ -84,6 +84,7 @@ function init(){
 	  fragmentShader: document.getElementById('sem-fs2' ).textContent,
 	  shading: THREE.SmoothShading
 	} );
+	console.log(`textures/matcap/matcap${texNum}.jpg`);
 	material.uniforms.tMatCap.value.wrapS = 
 			material.uniforms.tMatCap.value.wrapT = THREE.ClampToEdgeWrapping;
 	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 90, 50), material);
