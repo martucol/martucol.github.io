@@ -5,9 +5,6 @@
  * @author alteredq / http://alteredqualia.com/
  */
 
-import {
-	Face3
-} from "./three.min.js";
 
 var TessellateModifier = function ( maxEdgeLength ) {
 
@@ -33,7 +30,7 @@ TessellateModifier.prototype.modify = function ( geometry ) {
 
 		var face = geometry.faces[ i ];
 
-		if ( face instanceof Face3 ) {
+		if ( face instanceof THREE.Face3 ) {
 
 			var a = face.a;
 			var b = face.b;
@@ -238,5 +235,3 @@ TessellateModifier.prototype.modify = function ( geometry ) {
 	geometry.faceVertexUvs = faceVertexUvs;
 
 };
-
-export { TessellateModifier };

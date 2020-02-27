@@ -4,12 +4,20 @@
 		<title>three.js webgl - modifier - tessellation</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<link type="text/css" rel="stylesheet" href="main.css">
+		<style>
+			body { margin: 0; background: black; color:white}
+			#container { width: 100%; height: 100% ; background: #119988}
+		</style>
+		<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
 	</head>
 
 	<body>
 		<div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> - modifier tessellation</div>
+		<h1>tesselation</h1>
 		<div id="container"></div>
+		<script src="js/three.min.js"></script>		
+		<script src="./js/TessellateModifier.js"></script>
+
 
 		<script type="x-shader/x-vertex" id="vertexshader">
 
@@ -52,26 +60,18 @@
 
 		</script>
 
-		<script type="module">
-
-			import * as THREE from 'js/three.min.js';
-
-			import { TrackballControls } from './js/TrackballControls.js';
-			import { TessellateModifier } from './js/TessellateModifier.js';
-
-
+		<script type="text/javascript"  id="mainCode">
 			var renderer, scene, camera;
 
-			var controls;
+			// var controls;
 
-			var mesh, uniforms;
+			var mesh, uniforms, cube;
 
 			var WIDTH = window.innerWidth,
 				HEIGHT = window.innerHeight;
 
 
-			function init( font ) {
-
+			function init( ) {
 				camera = new THREE.PerspectiveCamera( 40, WIDTH / HEIGHT, 1, 10000 );
 				camera.position.set( - 100, 100, 200 );
 
@@ -92,7 +92,7 @@
 
 				}
 
-				//
+				
 
 				geometry = new THREE.BufferGeometry().fromGeometry( geometry );
 
@@ -128,24 +128,20 @@
 					}
 
 				}
-
-				geometry.setAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
-				geometry.setAttribute( 'displacement', new THREE.BufferAttribute( displacement, 3 ) );
-
+				geometry.customColor = new THREE.BufferAttribute( colors, 3 );
+				geometry.displacement = new THREE.BufferAttribute( displacement, 3 );
+				// geometry.setAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+				// geometry.setAttribute( 'dispalacement', new THREE.BufferAttribute( displacement, 3 ) );
 				//
 
 				uniforms = {
-
-					amplitude: { value: 0.0 }
-
+					amplitude: { type: "f", value: 0.0 }
 				};
 
 				var shaderMaterial = new THREE.ShaderMaterial( {
-
 					uniforms: uniforms,
 					vertexShader: document.getElementById( 'vertexshader' ).textContent,
 					fragmentShader: document.getElementById( 'fragmentshader' ).textContent
-
 				} );
 
 				//
@@ -154,6 +150,13 @@
 
 				scene.add( mesh );
 
+
+				cube = new THREE.Mesh(new THREE.BoxGeometry( 1, 1, 1 ), new THREE.MeshBasicMaterial( {color: 0x00ff00} ));
+				scene.add( cube );
+
+				var ambientLight = new THREE.AmbientLight(0x222222);
+				scene.add(ambientLight);
+
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( WIDTH, HEIGHT );
@@ -161,7 +164,6 @@
 				var container = document.getElementById( 'container' );
 				container.appendChild( renderer.domElement );
 
-				controls = new TrackballControls( camera, renderer.domElement );
 
 				//
 
@@ -187,20 +189,19 @@
 			}
 
 			function render() {
+				camera.lookAt(scene.position);
 
 				var time = Date.now() * 0.001;
 
 				uniforms.amplitude.value = 1.0 + Math.sin( time * 0.5 );
 
-				controls.update();
 
 				renderer.render( scene, camera );
 
 			}
 
-
+			init();
+			animate();
 		</script>
-
 </body>
-
 </html>
