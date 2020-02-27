@@ -144,8 +144,8 @@
 				}
 				// geometry.customColor = new THREE.BufferAttribute( colors, 3 );
 				// geometry.displacement = new THREE.BufferAttribute( displacement, 3 );
-				geometry.addAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
-				geometry.addAttribute( 'displacement', new THREE.BufferAttribute( displacement, 3 ) );
+				geometry.setAttribute( 'customColor', new THREE.BufferAttribute( colors, 3 ) );
+				geometry.setAttribute( 'displacement', new THREE.BufferAttribute( displacement, 3 ) );
 				//
 
 				uniforms = {
@@ -227,7 +227,6 @@
 				//  1.0 + Math.sin( time * 0.5 )
 				// displace range 0 - 25
 				shaderMaterial.uniforms["amplitude"].value = explode;
-				console.log(shaderMaterial.uniforms["amplitude"].value);
 				geometry.verticesNeedUpdate = true; //must be set or vertices will not update
 				geometry.computeVertexNormals();
 				geometry.normalsNeedUpdate = true;
