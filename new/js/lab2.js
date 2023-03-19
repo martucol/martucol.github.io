@@ -87,7 +87,7 @@ function init(){
 	console.log(`textures/matcap/matcap${texNum}.jpg`);
 	material.uniforms.tMatCap.value.wrapS = 
 			material.uniforms.tMatCap.value.wrapT = THREE.ClampToEdgeWrapping;
-	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 90, 50), material);
+	objeto = new THREE.Mesh(new THREE.TorusKnotGeometry(50, 20, 150, 70), material);
 	scene.add(objeto);
 
 	geometry =  new THREE.SphereGeometry(1, 64, 64);
